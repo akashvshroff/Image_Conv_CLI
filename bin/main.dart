@@ -11,7 +11,8 @@ void main() {
   final String format =
       prompter.askMultiple('Select format:', buildFormatOptions());
 
-  final List<Option> fileOptions = buildFileOptions(format);
+  String filterFormat = format == 'png' ? 'jpeg\jpg' : 'png';
+  final List<Option> fileOptions = buildFileOptions(filterFormat);
   if (fileOptions.isEmpty) {
     stdout.writeln(
         'Error: No file can be converted in current working directory.');
@@ -24,8 +25,8 @@ void main() {
 
 List<Option> buildFormatOptions() {
   return [
-    Option(label: 'Convert png to jpeg', value: 'png'),
-    Option(label: 'Convert jpeg or jpg to png', value: 'jpeg|jpg')
+    Option(label: 'Convert png to jpeg', value: 'jpeg'),
+    Option(label: 'Convert jpeg or jpg to png', value: 'png')
   ];
 }
 
