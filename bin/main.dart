@@ -11,24 +11,28 @@ void main() {
   final String format =
       prompter.askMultiple('Select format:', buildFormatOptions());
 
-  final image =
-      prompter.askMultiple('Select an image to convert:', buildFileOptions());
-  print(image);
-
-  // print(buildFileOptions());
+  final List<Option> fileOptions = buildFileOptions(format);
+  if (fileOptions.isEmpty) {
+    stdout.writeln(
+        'Error: No file can be converted in current working directory.');
+    exit(0);
+  }
+  final FileSystemEntity selectedFile =
+      prompter.askMultiple('Select an image to convert:', fileOptions);
+  print(selectedFile);
 }
 
 List<Option> buildFormatOptions() {
   return [
-    Option(label: 'Convert to jpeg', value: 'jpeg'),
-    Option(label: 'Convert to png', value: 'png')
+    Option(label: 'Convert png to jpeg', value: 'png'),
+    Option(label: 'Convert jpeg or jpg to png', value: 'jpeg|jpg')
   ];
 }
 
-List<Option> buildFileOptions() {
+List<Option> buildFileOptions(String fileType) {
   return Directory.current.listSync().where((entity) {
     return FileSystemEntity.isFileSync(entity.path) &&
-        entity.path.contains(RegExp(r'\.(png|jpg|jpeg)'));
+        entity.path.contains(RegExp(r'\.(' + fileType + ')'));
   }).map((entity) {
     final String filename = entity.path.split(Platform.pathSeparator).last;
     return Option(label: filename, value: entity);
