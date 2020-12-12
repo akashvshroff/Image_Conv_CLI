@@ -1,4 +1,4 @@
-import 'package:cli_wizard_avs/cli_wizard_avs.dart';
+import 'package:cli_wizard_avs/cli_wizard_avs.dart'; // my dart cli package
 import 'dart:io';
 import 'package:Image_Conv_CLI/src/converter.dart';
 
@@ -32,6 +32,7 @@ void main() {
 }
 
 List<Option> buildFormatOptions() {
+  //returns the format options
   return [
     Option(label: 'Convert png to jpeg', value: 'jpeg'),
     Option(label: 'Convert jpeg or jpg to png', value: 'png')
@@ -39,6 +40,7 @@ List<Option> buildFormatOptions() {
 }
 
 List<Option> buildFileOptions(String fileType) {
+  // all the possible image files (in the cwd) that can be converted
   return Directory.current.listSync().where((entity) {
     return FileSystemEntity.isFileSync(entity.path) &&
         entity.path.contains(RegExp(r'\.(' + fileType + ')'));

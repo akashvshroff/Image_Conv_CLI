@@ -19,5 +19,6 @@ String convertImage(FileSystemEntity selectedFile, String format) {
 }
 
 String replaceExtension(String path, String newExtension) {
+  // path with every occurence of old extension replaced
   return path.replaceAll(RegExp(r'(png|jpg|jpeg)'), newExtension);
 }
