@@ -1,5 +1,6 @@
 import 'package:cli_wizard_avs/cli_wizard_avs.dart';
 import 'dart:io';
+import 'package:Image_Conv_CLI/src/converter.dart';
 
 void main() {
   final Prompter prompter = Prompter();
@@ -11,7 +12,7 @@ void main() {
   final String format =
       prompter.askMultiple('Select format:', buildFormatOptions());
 
-  String filterFormat = format == 'png' ? 'jpeg\jpg' : 'png';
+  String filterFormat = format == 'png' ? 'jpeg|jpg' : 'png';
   final List<Option> fileOptions = buildFileOptions(filterFormat);
   if (fileOptions.isEmpty) {
     stdout.writeln(
@@ -20,7 +21,14 @@ void main() {
   }
   final FileSystemEntity selectedFile =
       prompter.askMultiple('Select an image to convert:', fileOptions);
-  print(selectedFile);
+  final String newPath = convertImage(selectedFile, format);
+
+  final bool shouldOpen =
+      prompter.askBinary('Conversion complete. Open the image?');
+
+  if (shouldOpen) {
+    Process.run('explorer', [newPath]);
+  }
 }
 
 List<Option> buildFormatOptions() {
