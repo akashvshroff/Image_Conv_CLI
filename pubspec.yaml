@@ -4,3 +4,4 @@ version: 0.0.1
 
 dependencies:
   cli_wizard_avs: 0.0.3
+  image: ^2.1.19
