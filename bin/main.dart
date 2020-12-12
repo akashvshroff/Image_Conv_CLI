@@ -23,8 +23,11 @@ List<Option> buildFormatOptions() {
 }
 
 List<Option> buildFileOptions() {
-  Directory.current.listSync().where((entity) {
+  return Directory.current.listSync().where((entity) {
     return FileSystemEntity.isFileSync(entity.path) &&
         entity.path.contains(RegExp(r'\.(png|jpg|jpeg)'));
-  });
+  }).map((entity) {
+    final String filename = entity.path.split(Platform.pathSeparator).last;
+    return Option(label: filename, value: entity);
+  }).toList();
 }
